@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'models_demos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'your_db_name',
-        'USER': 'postgres',
-        'PASSWORD': 'your_db_password',
+        'NAME': 'employees_db',
+        'USER': 'postgres-user',
+        'PASSWORD': 'password',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
