@@ -1,0 +1,57 @@
+{% load static %}
+{% load filters %}
+{% load tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block page_title %} My site {% endblock %}</title>
+{# wrong way to load a static file #}
+{#    <link rel="stylesheet" href="/static/site.css">#}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'site.css' %}">
+
+    {# site css #}
+    <style>
+        h1 {
+            color: green;
+        }
+    </style>
+
+    {# page specific CSS #}
+    {% block styles %}{% endblock %}
+    {% block head_scripts %}{% endblock %}
+</head>
+<body>
+{% block body_start_scripts %}
+
+{% endblock %}
+
+{% block body_end_scripts %}
+{% endblock %}
+HTML Nav:
+<nav>
+    <a href="{% url 'index' %}">{% url 'index' %}</a>
+
+    <a href="{% url 'redirect to home' %}">{% url 'redirect to home' %}</a>
+</nav>
+
+Tag Nav:
+{% app_nav 'index' 'redirect to home' 'about' %}
+{% app_nav 'index' 'redirect to home' 'redirect to home' %}
+
+
+{% block page_content %}
+{% endblock %}
+
+{% include 'partials/footer.html' %}
+{# include when no python logic is neede  #}
+{# custom tags when i need one #}
+
+</body>
+</html>
