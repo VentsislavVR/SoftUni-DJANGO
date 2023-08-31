@@ -1,0 +1,65 @@
+<!
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div style="display:flex; justify-content:normal">
+    <div>
+        <ul>
+
+            <h1>IN MEMORY </h1>
+            <ul>
+                {% for el in employees %}
+                    <li>
+                        <div>
+                            {{ el.first_name }} {{ el.last_name }}
+                        </div>
+                        <div>
+                            {{ el.department.name }}
+                        </div>
+                        <div>
+                            Experience: {{ el.years_of_experience }}
+                            Age : {{ el.age }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <h1> From db</h1>
+            <ul>
+
+                {% for el in employees2 %}
+                    <li>
+                        <div>
+                            {{ el.first_name }} {{ el.last_name }}
+                        </div>
+                        <div>
+                            {{ el.department.name }}
+                        </div>
+                        <div>
+                            Experience: {{ el.years_of_experience }}
+                            Age : {{ el.age }}
+                        </div>
+                        <a href="{% url 'delete_employee' pk=employees.pk %}">
+                            Delete
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </ul>
+    </div>
+</div>
+<h1>
+    {{ department.name }}
+</h1>
+</body>
+</html>

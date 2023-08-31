@@ -17,7 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from models_demos.web.views import delete_employee
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('models_demos.web.urls'))
+    path('', include('models_demos.web.urls')),
 ]
