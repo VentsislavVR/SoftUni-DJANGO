@@ -1,25 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<h1>
-    {% if name %}
-        Hello, {{ name }}! Nice to see you
-    	{% else %}
+{% extends  'base.html' %}
+{% block title %}
+Forms
+{% endblock %}
+{% block content %}
+
+
+    <h1>
+        {% if name %}
+            Hello, {{ name }}! Nice to see you
+        {% else %}
             Please, enter a name!
-    {% endif %}
-</h1>
-<form method="post" action="{% url 'index' %}">
-{{ form }}
-    {% csrf_token %}
-    <button>Send form</button>
+        {% endif %}
+    </h1>
+    <form method="post" action="{% url 'index' %}">
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">
+                <strong>{{ field.label }}</strong>
+                {{ field }}
+            </label>
+        {% endfor %}
+        <button>Send form</button>
+        {% csrf_token %}
 
     </form>
-</body>
-</html>
+{% endblock %}
