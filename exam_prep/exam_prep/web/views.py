@@ -1,7 +1,7 @@
 from django.core import exceptions
 from django.shortcuts import render, redirect
 
-from exam_prep.web.forms import ProfileCreateForm, AlbumCreateForm, AlbumEditForm, AlbumDeleteForm
+from exam_prep.web.forms import ProfileCreateForm, AlbumCreateForm, AlbumEditForm, AlbumDeleteForm, ProfileDeleteForm
 from exam_prep.web.models import Profile, Album
 
 # Create your views here.
@@ -110,8 +110,10 @@ def delete_album(request, pk):
 
 def details_profile(request):
     profile = get_profile()
+    album_count = Album.objects.count()
     context = {
         'profile': profile,
+        'albums_count':album_count,
     }
 
     return render(request,
@@ -140,4 +142,21 @@ def add_profile(request):
 
 
 def delete_profile(request):
-    return render(request, 'profiles/profile-delete.html')
+    profile = get_profile()
+
+    if request.method == 'GET':
+        form = ProfileDeleteForm(instance=profile)
+    else:
+        form = ProfileDeleteForm(request.POST,instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    context = {
+        'form':form
+    }
+
+    return render(
+        request,
+                  'profiles/profile-delete.html',
+                  context
+                  )
