@@ -2,7 +2,7 @@
     height: 400px;
     width: 1000px;
     border-radius: 7px 7px 7px 7px;
-    box-shadow: 0 0 1.5px 3px gray;
+    box-shadow: 0 0 1.5px 3px rgb(128, 128, 128);
     margin: 30px auto 200px;
 }
 
@@ -31,7 +31,7 @@
 
 .albumText h3 {
     font-size: 18px;
-    color: gray;
+    color: rgb(128, 128, 128);
     letter-spacing: 0.2em;
     margin: 8px 0 0 18px;
 }

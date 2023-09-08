@@ -1,8 +1,8 @@
 from django.core import exceptions
 from django.shortcuts import render, redirect
 
-from exam_prep.web.forms import ProfileCreateForm
-from exam_prep.web.models import Profile
+from exam_prep.web.forms import ProfileCreateForm, AlbumCreateForm, AlbumEditForm, AlbumDeleteForm
+from exam_prep.web.models import Profile, Album
 
 # Create your views here.
 
@@ -29,27 +29,94 @@ def index(request):
     if profile is None:
         return redirect('add profile')
 
-    return render(request, 'core/home-with-profile.html')
+    context = {
+        'albums':Album.objects.all(),
+    }
+
+    return render(request,
+                  'core/home-with-profile.html',
+                  context)
 
 
 def add_album(request):
-    return render(request, 'album/add-album.html')
+    if request.method == 'GET':
+        form = AlbumCreateForm()
+    else:
+        form = AlbumCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    context = {
+        'form':form
+    }
+    return render(request,
+                  'album/add-album.html',
+                  context)
 
 
 def details_album(request, pk):
-    return render(request, 'album/album-details.html')
+    album = Album.objects\
+             .filter(pk=pk)\
+             .get()
+    context = {
+        'album': album,
+    }
+    return render(request,
+                  'album/album-details.html'
+                  ,context)
 
 
 def edit_album(request, pk):
-    return render(request, 'album/edit-album.html')
+    album = Album.objects.filter(pk=pk).get()
+
+    if request.method == 'GET':
+        form = AlbumEditForm(instance=album)
+    else:
+        form = AlbumEditForm(request.POST,instance=album)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {
+        'form': form,
+        'album':album,
+    }
+    return render(request,
+                  'album/edit-album.html',
+                  context)
 
 
 def delete_album(request, pk):
-    return render(request, 'album/delete-album.html')
+    album = Album.objects.filter(pk=pk).get()
+
+    if request.method=='GET':
+        form = AlbumDeleteForm(instance=album)
+    else:
+        # Album.objects.filter(pk=pk).delete() not recommended!
+        form = AlbumDeleteForm(request.POST,instance=album)
+        if form.is_valid():
+            form.save() # proer way to change the save in the form
+            return redirect('index')
+
+    context={
+        'album':album,
+        'form':form,
+    }
+
+    return render(request,
+                  'album/delete-album.html'
+                  ,context)
 
 
 def details_profile(request):
-    return render(request, 'profiles/profile-details.html')
+    profile = get_profile()
+    context = {
+        'profile': profile,
+    }
+
+    return render(request,
+                  'profiles/profile-details.html',
+                  context)
 
 
 def add_profile(request):
@@ -65,6 +132,7 @@ def add_profile(request):
             return redirect('index')
     context = {
         'form':form,
+
     }
     return render(request,
                   'core/home-no-profile.html',
