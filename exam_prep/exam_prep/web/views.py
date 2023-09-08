@@ -27,10 +27,10 @@ def get_profile():
 def index(request):
     profile = get_profile()
     if profile is None:
-        return redirect('add profile')
+        return add_profile(request)
 
     context = {
-        'albums':Album.objects.all(),
+        'albums': Album.objects.all(),
     }
 
     return render(request,
@@ -47,7 +47,7 @@ def add_album(request):
             form.save()
             return redirect('index')
     context = {
-        'form':form
+        'form': form
     }
     return render(request,
                   'album/add-album.html',
@@ -55,15 +55,15 @@ def add_album(request):
 
 
 def details_album(request, pk):
-    album = Album.objects\
-             .filter(pk=pk)\
-             .get()
+    album = Album.objects \
+        .filter(pk=pk) \
+        .get()
     context = {
         'album': album,
     }
     return render(request,
                   'album/album-details.html'
-                  ,context)
+                  , context)
 
 
 def edit_album(request, pk):
@@ -72,14 +72,14 @@ def edit_album(request, pk):
     if request.method == 'GET':
         form = AlbumEditForm(instance=album)
     else:
-        form = AlbumEditForm(request.POST,instance=album)
+        form = AlbumEditForm(request.POST, instance=album)
         if form.is_valid():
             form.save()
             return redirect('index')
 
     context = {
         'form': form,
-        'album':album,
+        'album': album,
     }
     return render(request,
                   'album/edit-album.html',
@@ -89,23 +89,23 @@ def edit_album(request, pk):
 def delete_album(request, pk):
     album = Album.objects.filter(pk=pk).get()
 
-    if request.method=='GET':
+    if request.method == 'GET':
         form = AlbumDeleteForm(instance=album)
     else:
         # Album.objects.filter(pk=pk).delete() not recommended!
-        form = AlbumDeleteForm(request.POST,instance=album)
+        form = AlbumDeleteForm(request.POST, instance=album)
         if form.is_valid():
-            form.save() # proer way to change the save in the form
+            form.save()  # proer way to change the save in the form
             return redirect('index')
 
-    context={
-        'album':album,
-        'form':form,
+    context = {
+        'album': album,
+        'form': form,
     }
 
     return render(request,
                   'album/delete-album.html'
-                  ,context)
+                  , context)
 
 
 def details_profile(request):
@@ -113,7 +113,7 @@ def details_profile(request):
     album_count = Album.objects.count()
     context = {
         'profile': profile,
-        'albums_count':album_count,
+        'albums_count': album_count,
     }
 
     return render(request,
@@ -133,7 +133,8 @@ def add_profile(request):
             form.save()
             return redirect('index')
     context = {
-        'form':form,
+        'form': form,
+        'hide_nav_links':True,
 
     }
     return render(request,
@@ -147,16 +148,16 @@ def delete_profile(request):
     if request.method == 'GET':
         form = ProfileDeleteForm(instance=profile)
     else:
-        form = ProfileDeleteForm(request.POST,instance=profile)
+        form = ProfileDeleteForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('index')
     context = {
-        'form':form
+        'form': form
     }
 
     return render(
         request,
-                  'profiles/profile-delete.html',
-                  context
-                  )
+        'profiles/profile-delete.html',
+        context
+    )
