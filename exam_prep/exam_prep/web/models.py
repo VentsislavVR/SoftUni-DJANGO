@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 def validate_only_alphanumeric(value):
     for ch in value:
-        if not ch.isalnum() and '-' not in value:
+        if not ch.isalnum() and ch != '_':
             raise exceptions.ValidationError("Ensure this value contains only letters, numbers, and underscore.")
 
 

@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.core import exceptions
+from django.shortcuts import render, redirect
 
+from exam_prep.web.forms import ProfileCreateForm
+from exam_prep.web.models import Profile
 
 # Create your views here.
 
@@ -14,7 +17,18 @@ from django.shortcuts import render
 '''
 
 
+def get_profile():
+    try:
+        return Profile.objects.get()
+    except Profile.DoesNotExist as ex:
+        return None
+
+
 def index(request):
+    profile = get_profile()
+    if profile is None:
+        return redirect('add profile')
+
     return render(request, 'core/home-with-profile.html')
 
 
@@ -36,6 +50,25 @@ def delete_album(request, pk):
 
 def details_profile(request):
     return render(request, 'profiles/profile-details.html')
+
+
+def add_profile(request):
+    if get_profile() is not None:
+        return redirect('index')
+
+    if request.method == 'GET':
+        form = ProfileCreateForm()
+    else:
+        form = ProfileCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    context = {
+        'form':form,
+    }
+    return render(request,
+                  'core/home-no-profile.html',
+                  context)
 
 
 def delete_profile(request):
