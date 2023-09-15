@@ -1,19 +1,12 @@
-
-
 from pathlib import Path
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-
-SECRET_KEY = 'django-insecure-ubdw6eump605nc43oap*j$^uz5jcr*4c18m4@x8%_%m@60e2e+'
-
+SECRET_KEY = 'django-insecure-^4e81%d$4=^2kxvc9@jhdn#p1!00m0#y7%*67q5i-n!n5^03@j'
 
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,8 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'expenses_tracker.web',
+    'expenses_tracker.web'
 ]
 
 MIDDLEWARE = [
@@ -57,10 +49,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'expenses_tracker.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -87,8 +75,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -97,15 +83,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = (
     BASE_DIR / 'staticfiles',
-
 )
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

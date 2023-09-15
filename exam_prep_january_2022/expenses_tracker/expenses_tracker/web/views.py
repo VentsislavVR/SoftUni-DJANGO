@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def show_index(request):
-    return render(request, 'home-no-profile.html')
+    return render(request, 'home-with-profile.html')
 
 
 def create_expense(request):
@@ -21,10 +21,8 @@ def delete_expense(request,pk):
 def show_profile(request):
     return render(request, 'profile.html')
 
-
 def create_profile(request):
-    ...
-
+    pass
 def edit_profile(request):
     return render(request, 'profile-edit.html')
 
