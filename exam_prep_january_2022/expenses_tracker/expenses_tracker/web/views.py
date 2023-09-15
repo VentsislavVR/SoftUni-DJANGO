@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from expenses_tracker.forms import CreateProfileForm, EditProfileForm, DeleteProfileForm
+from expenses_tracker.web.forms import CreateProfileForm, EditProfileForm, DeleteProfileForm, CreateExpenseForm
 from expenses_tracker.web.models import Profile, Expense
 
 
@@ -20,9 +20,9 @@ def show_index(request):
     expenses = Expense.objects.all()
     budget_left = profile.budget - sum(e.price for e in expenses)
     context = {
-        'profile':profile,
-        'expenses':expenses,
-        'budget_lefft':budget_left,
+        'profile': profile,
+        'expenses': expenses,
+        'budget_lefft': budget_left,
 
     }
 
@@ -32,16 +32,29 @@ def show_index(request):
 
 
 def create_expense(request):
+    if request.method == 'POST':
+        form = CreateExpenseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('show index')
+    else:
+
+        form = CreateExpenseForm()
+    context = {
+        'form': form
+    }
     return render(request,
                   'expense-create.html',
-                  )
+                  context)
 
 
 def edit_expense(request, pk):
+
     return render(request, 'expense-edit.html')
 
 
 def delete_expense(request, pk):
+
     return render(request, 'expense-delete.html')
 
 
@@ -49,11 +62,11 @@ def show_profile(request):
     profile = get_profile()
     expenses = Expense.objects.all()
     budget_left = profile.budget - sum(e.price for e in expenses)
-    expenses_count=len(expenses)
+    expenses_count = len(expenses)
     context = {
-        'profile':profile,
-        'expenses_count':expenses_count,
-        'budget_left':budget_left,
+        'profile': profile,
+        'expenses_count': expenses_count,
+        'budget_left': budget_left,
     }
     return render(request,
                   'profile.html',
@@ -62,7 +75,7 @@ def show_profile(request):
 
 def create_profile(request):
     if request.method == 'POST':
-        form = CreateProfileForm(request.POST,request.FILES)
+        form = CreateProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('show index')
@@ -70,7 +83,7 @@ def create_profile(request):
         form = CreateProfileForm()
     context = {
         'form': form,
-        'no_profile':True,
+        'no_profile': True,
     }
     return render(request,
                   'home-no-profile.html',
@@ -81,7 +94,7 @@ def edit_profile(request):
     profile = get_profile()
 
     if request.method == 'POST':
-        form = EditProfileForm(request.POST,request.FILES, instance=profile)
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('show index')
@@ -110,4 +123,4 @@ def delete_profile(request):
     context = {
         'form': form
     }
-    return render(request, 'profile-delete.html',context)
+    return render(request, 'profile-delete.html', context)
