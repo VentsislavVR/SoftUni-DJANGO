@@ -19,7 +19,7 @@
     <!-- Headline My Expenses -->
     <h1>My Expenses</h1>
     <!-- Add Expense Button -->
-    <a class="button add" href="#">Add Expense</a>
+    <a class="button add" href="{% url 'create expense' %}">Add Expense</a>
 
     <div class="expenses-container">
 
@@ -56,8 +56,8 @@
                     <p>Price: 200.00$</p>
                 </div>
                 <div class="right">
-                    <a class="button edit" href="#">Edit</a>
-                    <a class="button delete" href="#">Delete</a>
+                    <a class="button edit" href="{% url 'edit expense' %}">Edit</a>
+                    <a class="button delete" href="{% url 'delete expense' %}">Delete</a>
                 </div>
             </div>
         </div>
